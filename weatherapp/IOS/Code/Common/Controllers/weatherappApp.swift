@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct weatherappApp: App {
+   
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView(wind: .constant("12,5"), pressure: .constant("1000"), humidity: .constant("51"))
+                
         }
     }
 }
