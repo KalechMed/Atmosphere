@@ -14,13 +14,25 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     private func setupLocationManager() {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestWhenInUseAuthorization()
-            locationManager.startUpdatingLocation()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // Perform location setup on a background thread
+        DispatchQueue.global(qos: .background).async {
+            // Check if location services are enabled
+            if CLLocationManager.locationServicesEnabled() {
+                // Request location authorization on the main thread
+                DispatchQueue.main.async {
+                    self.locationManager.requestWhenInUseAuthorization()
+                }
+                
+                // Start updating location on the main thread
+                DispatchQueue.main.async {
+                    self.locationManager.startUpdatingLocation()
+                }
+            }
         }
     }
+
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
@@ -42,5 +54,5 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
-
 }
+

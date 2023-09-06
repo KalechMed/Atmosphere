@@ -12,16 +12,16 @@ import SwiftUI
 struct ImageView: View {
     
     var placeholder: String
+    
+    
     @ObservedObject var locationManager = LocationManager()
-
-    
-    
+    @StateObject private var weatherViewModel = WeatherViewModel()
     @Binding var searchText: String
-    @Binding var country:String
-    @Binding var city:String
-    @Binding var degree:String
-    @Binding var date:String
-    @Binding var weatherDescription:String
+   
+    
+    
+    
+    
     
 
     
@@ -73,28 +73,57 @@ struct ImageView: View {
                         {
                            
                             Text("\(locationManager.city),\(locationManager.country)")
-                                                       .font(TypefaceOne.medium.font(size: 18))
-                                                       .foregroundColor(.white)
+                                .font(TypefaceOne.medium.font(size: 18))
+                                .foregroundColor(.white)
                             
                             
                             
                         }
+                       
+                       
+                        
                        }
                     .padding(.horizontal,20)
                     
                     VStack(alignment: .center ,spacing: -26)
                     {
-                        Text(degree)
-                            .foregroundColor(.white)
-                            .font(TypefaceOne.semiBold.font(size: 130))
                         
-                        Text(weatherDescription)
-                            .font(TypefaceOne.semiBold.font(size: 20))
-                            .foregroundColor(.white)
-                        
-                        
+                        if let weather = weatherViewModel.weather {
+                            
+                            HStack()
+                            {
+                                
+                                
+                                Text(String(format: "%.0f", weather.current.temp_c))
+                                    .foregroundColor(.white)
+                                    .font(TypefaceOne.semiBold.font(size: 130))
+                                
+                                
+                                Text("°")
+                                    .foregroundColor(.white)
+                                    .font(TypefaceOne.semiBold.font(size: 60))
+                                    .padding(.bottom,50)
+                                
+                                
+                            }
+                            .padding(.leading,40)
+                            
+                            Text(weather.current.condition.text)
+                                .font(TypefaceOne.semiBold.font(size: 20))
+                                .foregroundColor(.white)
+                            
+                            
+                        }
                     }
                     .padding(.top,30)
+                    
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            weatherViewModel.current(city: locationManager.city) {
+                                print("locationManager.city: \(locationManager.city)")
+                            }
+                        }
+                    }
                     
                     
                     Text(currentFormattedDate())
@@ -113,18 +142,24 @@ struct ImageView: View {
             }
             
             
+            
         
         }
+       
+        
+        
+
         
         
     }
+       
     
     
     func currentFormattedDate() -> String {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd MMMM, EEEE"
             return dateFormatter.string(from: Date())
-        }
+    }
     
     
 }
@@ -132,5 +167,5 @@ struct ImageView: View {
 
 
 #Preview {
-    ImageView(placeholder: "Tunis", searchText: .constant(""), country: .constant("Tunisia"), city: .constant("Tunis"), degree: .constant("02"), date: .constant("25 January,Friday"), weatherDescription: .constant("Partly cloudy"))
+    ImageView(placeholder: "Tunis", searchText: .constant(""))
 }

@@ -13,7 +13,8 @@ struct weatherappApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView(wind: .constant("12,5"), pressure: .constant("1000"), humidity: .constant("51"))
+            MainView(wind: "aa", pressure: "aa", humidity: "aa")
+            
                 
         }
     }

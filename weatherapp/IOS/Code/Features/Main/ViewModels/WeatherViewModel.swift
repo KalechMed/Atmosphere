@@ -23,7 +23,7 @@ class WeatherViewModel: ObservableObject {
                         
                         completion()
                     }
-                    print("weather\(weather)")
+                   
                 }
             }.resume()
         }

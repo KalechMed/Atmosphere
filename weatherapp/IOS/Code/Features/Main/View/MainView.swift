@@ -12,11 +12,13 @@ struct MainView: View {
     
     //Mark - Variables
     
-    @Binding var wind:String
-    @Binding var pressure:String
-    @Binding var humidity:String
+    @State var wind:String
+    @State var pressure:String
+    @State var humidity:String
+    @ObservedObject var locationManager = LocationManager()
     @StateObject private var weatherViewModel = WeatherViewModel()
-    @State private var city = "Tunis"
+    
+   
     
     
     
@@ -25,7 +27,7 @@ struct MainView: View {
         
         VStack(alignment: .leading)
         {
-            ImageView(placeholder: "Tunis", searchText: .constant(""), country: .constant("Tunisia"), city: .constant("Tunis"), degree: .constant("02"), date: .constant("25 January,Friday"), weatherDescription: .constant("Partly cloudy"))
+            ImageView(placeholder: "Tunis", searchText: .constant("") )
                
             
             
@@ -152,8 +154,8 @@ struct MainView: View {
             .padding(.horizontal)
         }
         .onAppear {
-                    weatherViewModel.current(city: city) {
-                        print(weatherViewModel.weather)
+            weatherViewModel.current(city: locationManager.city){
+                        print("locationManager.city\(locationManager.city)")
                         
                     }
                 }
@@ -161,5 +163,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(wind: .constant("12,5"), pressure: .constant("1000"), humidity: .constant("51"))
+    MainView(wind: "aa", pressure: "aa", humidity: "aa")
 }
