@@ -11,7 +11,7 @@ import CoreLocation
 struct MainView: View {
     
     //Mark - Variables
-    
+    @Environment(\.colorScheme) var colorScheme
     @State var wind:String
     @State var pressure:String
     @State var humidity:String
@@ -46,18 +46,26 @@ struct MainView: View {
                     VStack(alignment: .leading)
                     {
                         
-                        Image("wind")
-                            .frame(width: 14,height: 14)
+                        if colorScheme == .dark {
+                                   Image("windLight")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                               } else {
+                                   Image("windDark")
+                                       .resizable()
+                                       .frame(width: 14, height: 14)
+                               }
+                            
                         
                         
                         Text("Wind")
                             .font(TypefaceOne.medium.font(size: 18))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("txtColor"))
                         
                         HStack(spacing: 4)
                         {
                             if let weather = weatherViewModel.weather {
-                                Text(String(format: "%.2f", weather.current.wind_kph))
+                                Text(String(format: "%.1f", weather.current.wind_kph))
                                 Text("Kmh")
                             }
                         }
@@ -78,13 +86,20 @@ struct MainView: View {
                     VStack(alignment: .leading)
                     {
                         
-                        Image("pressure")
-                            .frame(width: 14,height: 14)
+                        if colorScheme == .dark {
+                            Image("pressureLight")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                        } else {
+                            Image("pressureDark")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                        }
                         
                         
                         Text("pressure")
                             .font(TypefaceOne.medium.font(size: 18))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("txtColor"))
                         
                         HStack(spacing: 4)
                         {
@@ -109,13 +124,20 @@ struct MainView: View {
                     VStack(alignment: .leading)
                     {
                         
-                        Image("humidity")
-                            .frame(width: 14,height: 14)
+                        if colorScheme == .dark {
+                                   Image("humidityLight")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                               } else {
+                                   Image("humidityDark")
+                                       .resizable()
+                                       .frame(width: 14, height: 14)
+                               }
                         
                         
                         Text("humidity")
                             .font(TypefaceOne.medium.font(size: 18))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("txtColor"))
                         
                         HStack(spacing: 4)
                         {
@@ -154,11 +176,12 @@ struct MainView: View {
             .padding(.horizontal)
         }
         .onAppear {
-            weatherViewModel.current(city: locationManager.city){
-                        print("locationManager.city\(locationManager.city)")
-                        
-                    }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                weatherViewModel.current(city: locationManager.city) {
+                    print("locationManager.city: \(locationManager.city)")
                 }
+            }
+        }
     }
 }
 
