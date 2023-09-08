@@ -25,19 +25,21 @@ struct MainView: View {
     //Mark - Views
     var body: some View {
         
+        
         VStack(alignment: .leading)
         {
             ImageView(placeholder: "Tunis", searchText: .constant("") )
                
             
             
-            VStack(alignment: .leading)
+            VStack(alignment: .leading,spacing: 30)
             {
                 
                 
                 Text("Details")
                     .font(TypefaceOne.medium.font(size: 20))
                     .foregroundColor(Color("Bluee"))
+                
                 
                 
                 HStack(spacing: 20)
@@ -154,7 +156,7 @@ struct MainView: View {
                         
                         
                     }
-                    .padding(10) // Add padding to space the components from the stroke
+                    .padding(10)
                     .frame(width: 108)
                     .background(
                         RoundedRectangle(cornerRadius: 10)
@@ -163,11 +165,30 @@ struct MainView: View {
                     
                     
                 }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        weatherViewModel.current(city: locationManager.city) {
+                            print("1")
+                        }
+                    }
+                }
                 
-                Text("Today")
-                    .font(TypefaceOne.medium.font(size: 20))
-                    .foregroundColor(Color("Bluee"))
-                    .padding(.top,20)
+                VStack(alignment: .leading)
+                {
+                    
+                    Text("Today")
+                        .font(TypefaceOne.medium.font(size: 20))
+                        .foregroundColor(Color("Bluee"))
+                        
+                    
+                   
+                    TodayView()
+                       
+                    
+                               
+                              
+                }
+                
                 
                 
                 
@@ -175,13 +196,7 @@ struct MainView: View {
             }
             .padding(.horizontal)
         }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                weatherViewModel.current(city: locationManager.city) {
-                    print("locationManager.city: \(locationManager.city)")
-                }
-            }
-        }
+        
     }
 }
 
