@@ -13,7 +13,7 @@ struct weatherappApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView(wind: "aa", pressure: "aa", humidity: "aa")
+            MainView()
             
                 
         }

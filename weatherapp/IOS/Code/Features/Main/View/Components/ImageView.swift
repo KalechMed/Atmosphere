@@ -40,7 +40,8 @@ struct ImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
-                    .frame(height: 400)
+                    .frame(width: 396, height: 400)
+                
                     
         
                 
@@ -118,7 +119,7 @@ struct ImageView: View {
                     .padding(.top,30)
                     
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             weatherViewModel.current(city: locationManager.city) {
                                 print("2")
                             }

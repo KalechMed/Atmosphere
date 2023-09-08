@@ -25,6 +25,7 @@
 		D9AA4CC82AA64ABA00DCC89A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AA4CC72AA64ABA00DCC89A /* LocationManager.swift */; };
 		D9AA4CCA2AA6B48500DCC89A /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AA4CC92AA6B48500DCC89A /* Weather.swift */; };
 		D9AA4CCC2AA6B4D300DCC89A /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AA4CCB2AA6B4D300DCC89A /* WeatherViewModel.swift */; };
+		D9D4CD152AAB6B6400F54CFA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D4CD142AAB6B6400F54CFA /* DetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		D9AA4CC72AA64ABA00DCC89A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D9AA4CC92AA6B48500DCC89A /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		D9AA4CCB2AA6B4D300DCC89A /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
+		D9D4CD142AAB6B6400F54CFA /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +272,7 @@
 				D98E95A22AA508210017F4C3 /* ImageView.swift */,
 				D98E95A42AA510E50017F4C3 /* CustomSearchBar.swift */,
 				D92A681C2AAA2D09002A842D /* TodayView.swift */,
+				D9D4CD142AAB6B6400F54CFA /* DetailsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				D92A681B2AAA271F002A842D /* WeatherStatus.swift in Sources */,
 				D98E95A32AA508210017F4C3 /* ImageView.swift in Sources */,
 				D92A681D2AAA2D09002A842D /* TodayView.swift in Sources */,
+				D9D4CD152AAB6B6400F54CFA /* DetailsView.swift in Sources */,
 				D98E95622AA4CEEC0017F4C3 /* MainView.swift in Sources */,
 				D98E95A52AA510E50017F4C3 /* CustomSearchBar.swift in Sources */,
 				D9AA4CC82AA64ABA00DCC89A /* LocationManager.swift in Sources */,
