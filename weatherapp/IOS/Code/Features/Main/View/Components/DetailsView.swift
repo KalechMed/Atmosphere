@@ -19,7 +19,7 @@ struct DetailsView: View {
         
         
         
-        VStack(alignment: .leading,spacing: 30)
+        VStack(alignment: .leading,spacing: 10)
         {
             
             
@@ -153,7 +153,7 @@ struct DetailsView: View {
                 
             }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     weatherViewModel.current(city: locationManager.city) {
                     
                     }

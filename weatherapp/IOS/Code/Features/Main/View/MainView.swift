@@ -27,14 +27,20 @@ struct MainView: View {
             ImageView(placeholder: "Tunis", searchText: .constant("") )
                
             
+                VStack()
+            {
                 
                 DetailsView()
-                
-                
-                
+                    .padding(.vertical,10)
+               
                 TodayView()
                 
             }
+            
+                
+                
+            }
+        
         
            
         

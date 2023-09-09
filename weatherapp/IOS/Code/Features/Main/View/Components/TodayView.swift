@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TodayView: View {
     
+    @State var weatherstatus: WeatherStatus?
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var locationManager = LocationManager()
     @ObservedObject var weatherViewModel = WeatherViewModel()
@@ -24,49 +25,92 @@ struct TodayView: View {
             
             
             ScrollView(.horizontal) {
-                HStack(spacing: 20) {
+                HStack(spacing: 30) {
                     ForEach(weatherViewModel.weatherStatuses) { status in
-                        VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/,spacing: 2)
-                        {
-                            let formattedTime = formatTime(status.time)
-                            
-                            Text("\(formattedTime)")
-                                .font(TypefaceOne.medium.font(size: 16))
-                                .foregroundColor(Color("txtColor"))
-                            
-                            Image("sunny")
-                            
-                            
-                            HStack()
+                        
+                        let formattedTime = formatTime(status.time)
+                        let currentTime = formatTime(Date())
+                        
+                        if formattedTime >= currentTime {
+                            VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/,spacing: -2)
                             {
-                                Text(String(format: "%.1f", status.tempC))
+                                
+                                
+                                Text("\(formattedTime)")
                                     .font(TypefaceOne.medium.font(size: 16))
                                     .foregroundColor(Color("txtColor"))
                                 
-                                Text("°C")
-                                    .foregroundColor(Color("txtColor"))
-                                    .font(TypefaceOne.semiBold.font(size: 14))
-                                    .padding(.bottom,2)
+                                
+                                switch status.conditionText {
+                                                case "sunny":
+                                                    Image("sunny")
+                                                case "Partly cloudy":
+                                                    Image("Partly cloudy")
+                                                case "Cloudy":
+                                                    Image("Cloudy")
+                                case "Overcast":
+                                    Image("Overcast")
+                                case "Mist":
+                                    Image("Mist")
+                                case "Light rain":
+                                    Image("Light rain")
+                                case "Heavy rain":
+                                    Image("Heavy rain")
+                                case "Light snow":
+                                    Image("Light snow")
+                                case "Heavy snow":
+                                    Image("Heavy snow")
+                                    
+                                               
+                                                default:
+                                                    Image("sunny")
+                                                }
+                                
+                                
+                                HStack()
+                                {
+                                    Text(String(format: "%.1f", status.tempC))
+                                        .font(TypefaceOne.medium.font(size: 16))
+                                        .foregroundColor(Color("txtColor"))
+                                    
+                                    Text("°C")
+                                        .foregroundColor(Color("txtColor"))
+                                        .font(TypefaceOne.semiBold.font(size: 14))
+                                        .padding(.bottom,2)
+                                    
+                                }
+                                
+                                
                                 
                             }
-                            
-                            
+                            .padding(5)
+                            .padding(.horizontal,14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .foregroundColor(Color("ItemBg"))
+                            )
+                            .scrollTransition(topLeading: .interactive,
+                                              bottomTrailing: .interactive,
+                                              axis: .horizontal) { effect, phase in
+                                effect
+                                    .scaleEffect(1 - abs(phase.value))
+                                    .opacity(1 - abs(phase.value))
+                                
+                            }
+                                              .onTapGesture {
+                                                  withAnimation {
+                                                      self.weatherstatus = status
+                                                  }
+                                              }
                             
                         }
-                        .padding(5)
-                        .padding(.horizontal,16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .foregroundColor(Color("ItemBg"))
-                        )
-                        
                     }
                     
                     
                 }
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        weatherViewModel.fetchWeatherData(for: locationManager.city)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        weatherViewModel.fetchWeatherData(for:locationManager.city)
                     }
                 }
                 
@@ -84,6 +128,14 @@ struct TodayView: View {
             }
             return time
         }
+    
+    private func formatTime(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: date)
+    }
+    
+    
     
 }
 

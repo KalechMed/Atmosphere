@@ -66,7 +66,9 @@ struct ImageView: View {
                             
                             Spacer()
                             
-                            Image("menu-burger")
+                            Image("alert")
+                                .resizable()
+                                .frame(width: 30,height: 30)
                             
                         }
                         
@@ -119,7 +121,7 @@ struct ImageView: View {
                     .padding(.top,30)
                     
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             weatherViewModel.current(city: locationManager.city) {
                                 print("2")
                             }
