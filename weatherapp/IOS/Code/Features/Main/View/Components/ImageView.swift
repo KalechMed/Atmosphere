@@ -11,9 +11,10 @@ import SwiftUI
 
 struct ImageView: View {
     
+    @Binding var showSidebar: Bool
     var placeholder: String
-    
-    
+    @State var presentSideMenu = false
+    @State var selectedSideMenuTab = 0
     @ObservedObject var locationManager = LocationManager()
     @StateObject private var weatherViewModel = WeatherViewModel()
     @Binding var searchText: String
@@ -52,8 +53,6 @@ struct ImageView: View {
                     VStack(alignment: .leading ,spacing: 10)
                     {
                         
-                        
-                        
                         HStack()
                         {
                             
@@ -66,9 +65,19 @@ struct ImageView: View {
                             
                             Spacer()
                             
-                            Image("alert")
-                                .resizable()
-                                .frame(width: 30,height: 30)
+                            Button(action: {
+                                                withAnimation {
+                                                    showSidebar.toggle()
+                                                }
+                                            }) {
+                                                Image("alert")
+                                                    .resizable()
+                                                    .frame(width: 40,height: 40)
+                                                    
+                                            }
+                            
+                           
+                            
                             
                         }
                         
@@ -80,7 +89,7 @@ struct ImageView: View {
                                 .foregroundColor(.white)
                             
                             
-                            
+                           
                         }
                        
                        
@@ -92,6 +101,8 @@ struct ImageView: View {
                     {
                         
                         if let weather = weatherViewModel.weather {
+                            
+                            
                             
                             HStack()
                             {
@@ -170,5 +181,5 @@ struct ImageView: View {
 
 
 #Preview {
-    ImageView(placeholder: "Tunis", searchText: .constant(""))
+    ImageView(showSidebar: .constant(false), placeholder: "Tunis", searchText: .constant(""))
 }

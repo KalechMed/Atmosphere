@@ -12,7 +12,8 @@ struct MainView: View {
     
     //Mark - Variables
     
-   
+    @Binding var showSidebar: Bool
+
     
    
     
@@ -24,18 +25,21 @@ struct MainView: View {
         
         VStack(alignment: .leading)
         {
-            ImageView(placeholder: "Tunis", searchText: .constant("") )
+          
+            
+            ImageView(showSidebar: $showSidebar, placeholder: "Tunis", searchText: .constant(""))
                
             
                 VStack()
             {
                 
                 DetailsView()
-                    .padding(.vertical,10)
+                    .padding(.bottom,10)
                
                 TodayView()
                 
             }
+            .padding(.bottom,40)
             
                 
                 
@@ -49,5 +53,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(showSidebar: .constant(true))
 }
