@@ -1,11 +1,13 @@
 import SwiftUI
 import CoreLocation
-
+import Combine
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager = CLLocationManager()
     @Published var city = ""
     @Published var country = ""
+    @Published var isLocationPermissionGranted = false
+    @Published var locationPermissionDidChange = PassthroughSubject<Bool, Never>()
 
     override init() {
         super.init()
@@ -32,7 +34,24 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
+    
 
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+            // Check location authorization status
+            let status = CLLocationManager.authorizationStatus()
+            isLocationPermissionGranted = (status == .authorizedWhenInUse || status == .authorizedAlways)
+            locationPermissionDidChange.send(isLocationPermissionGranted)
+        }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            isLocationPermissionGranted = true
+        default:
+            isLocationPermissionGranted = false
+        }
+    }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
@@ -50,6 +69,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     if let country = placemark.country {
                         self.country = country
                     }
+                    
                 }
             }
         }

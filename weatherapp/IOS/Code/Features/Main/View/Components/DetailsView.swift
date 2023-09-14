@@ -10,11 +10,13 @@ import SwiftUI
 struct DetailsView: View {
     
     
-    @Environment(\.colorScheme) var colorScheme
+    //Mark - Variables
     
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var locationManager = LocationManager()
     @StateObject private var weatherViewModel = WeatherViewModel()
     
+    //Mark - Views
     var body: some View {
         
         
@@ -24,7 +26,7 @@ struct DetailsView: View {
             
             
             Text("Details")
-                .font(TypefaceOne.medium.font(size: 20))
+                .font(Poppins.medium.font(size: 20))
                 .foregroundColor(Color("Bluee"))
             
             
@@ -48,7 +50,7 @@ struct DetailsView: View {
                     
                     
                     Text("Wind")
-                        .font(TypefaceOne.medium.font(size: 18))
+                        .font(Poppins.medium.font(size: 18))
                         .foregroundColor(Color("txtColor"))
                     
                     HStack(spacing: 4)
@@ -58,7 +60,7 @@ struct DetailsView: View {
                             Text("Kmh")
                         }
                     }
-                    .font(TypefaceOne.medium.font(size: 14))
+                    .font(Poppins.medium.font(size: 14))
                     .foregroundColor(Color("Bluee"))
                     .padding(.trailing,14)
                     
@@ -87,7 +89,7 @@ struct DetailsView: View {
                     
                     
                     Text("pressure")
-                        .font(TypefaceOne.medium.font(size: 18))
+                        .font(Poppins.medium.font(size: 18))
                         .foregroundColor(Color("txtColor"))
                     
                     HStack(spacing: 4)
@@ -98,7 +100,7 @@ struct DetailsView: View {
                         }
                         
                     }
-                    .font(TypefaceOne.medium.font(size: 14))
+                    .font(Poppins.medium.font(size: 14))
                     .foregroundColor(Color("Bluee"))
                     
                     
@@ -125,7 +127,7 @@ struct DetailsView: View {
                     
                     
                     Text("humidity")
-                        .font(TypefaceOne.medium.font(size: 18))
+                        .font(Poppins.medium.font(size: 18))
                         .foregroundColor(Color("txtColor"))
                     
                     HStack(spacing: 4)
@@ -138,7 +140,7 @@ struct DetailsView: View {
                        
                         
                     }
-                    .font(TypefaceOne.medium.font(size: 14))
+                    .font(Poppins.medium.font(size: 14))
                     .foregroundColor(Color("Bluee"))
                     
                     
@@ -152,10 +154,12 @@ struct DetailsView: View {
                 
                 
             }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    weatherViewModel.current(city: locationManager.city) {
-                    
+            .onReceive(locationManager.locationPermissionDidChange) { isPermissionGranted in
+                if isPermissionGranted {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        weatherViewModel.current(city: locationManager.city) {
+                            print("Data fetched")
+                        }
                     }
                 }
             }

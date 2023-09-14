@@ -14,11 +14,6 @@ struct MainView: View {
     
     @Binding var showSidebar: Bool
 
-    
-   
-    
-    
-    
     //Mark - Views
     var body: some View {
         

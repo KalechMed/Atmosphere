@@ -9,18 +9,21 @@ import SwiftUI
 
 struct TodayView: View {
     
-    @State var weatherstatus: WeatherStatus?
+    //Mark - Variables
+    
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var locationManager = LocationManager()
     @ObservedObject var weatherViewModel = WeatherViewModel()
+    @State var weatherstatus: WeatherStatus?
     
+    //Mark - Views
     var body: some View {
         
         VStack(alignment: .leading)
         {
             
             Text("Today")
-                .font(TypefaceOne.medium.font(size: 20))
+                .font(Poppins.medium.font(size: 20))
                 .foregroundColor(Color("Bluee"))
             
             
@@ -37,7 +40,7 @@ struct TodayView: View {
                                 
                                 
                                 Text("\(formattedTime)")
-                                    .font(TypefaceOne.medium.font(size: 16))
+                                    .font(Poppins.medium.font(size: 16))
                                     .foregroundColor(Color("txtColor"))
                                 
                                 
@@ -70,12 +73,12 @@ struct TodayView: View {
                                 HStack()
                                 {
                                     Text(String(format: "%.1f", status.tempC))
-                                        .font(TypefaceOne.medium.font(size: 16))
+                                        .font(Poppins.medium.font(size: 16))
                                         .foregroundColor(Color("txtColor"))
                                     
                                     Text("°C")
                                         .foregroundColor(Color("txtColor"))
-                                        .font(TypefaceOne.semiBold.font(size: 14))
+                                        .font(Poppins.semiBold.font(size: 14))
                                         .padding(.bottom,2)
                                     
                                 }
@@ -108,15 +111,21 @@ struct TodayView: View {
                     
                     
                 }
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        weatherViewModel.fetchWeatherData(for:locationManager.city)
+                .onReceive(locationManager.locationPermissionDidChange) { isPermissionGranted in
+                    if isPermissionGranted {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            weatherViewModel.fetchWeatherData(for:locationManager.city)
+                        }
                     }
                 }
+                
+                
                 
             }
         }
         .padding(.horizontal)
+       
+        
     }
     
     private func formatTime(_ time: String) -> String {

@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct CustomSearchBar: View {
+    
+    //Mark - Variables
+    
     @Binding var searchText: String
+    
+    //Mark - Views
+    
     var body: some View {
         ZStack(alignment: .leading) {
                     TextField("", text: $searchText)

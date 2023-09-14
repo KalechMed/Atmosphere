@@ -14,13 +14,12 @@ struct SidebarView: View {
     var body: some View {
        
         
-        SideBarStack(sidebarWidth: 240, showSidebar: $showSidebar) {
+        SideBarStack(sidebarWidth: 280, showSidebar: $showSidebar) {
             
             VStack()
             {
                 
-                Text("hello world")
-                    .foregroundColor(Color.black)
+                AlertView()
             }
             
                 

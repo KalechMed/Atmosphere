@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-enum TypefaceOne{
+enum Poppins{
     case medium
     case semiBold
     

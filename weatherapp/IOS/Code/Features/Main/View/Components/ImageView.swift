@@ -11,6 +11,8 @@ import SwiftUI
 
 struct ImageView: View {
     
+    //Mark - Variables
+    
     @Binding var showSidebar: Bool
     var placeholder: String
     @State var presentSideMenu = false
@@ -18,13 +20,9 @@ struct ImageView: View {
     @ObservedObject var locationManager = LocationManager()
     @StateObject private var weatherViewModel = WeatherViewModel()
     @Binding var searchText: String
-   
+    @State private var isLocationFetched = false
     
-    
-    
-    
-    
-
+    //Mark - Views
     
     var body: some View {
         
@@ -37,14 +35,68 @@ struct ImageView: View {
         
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .top))
             {
-                Image("snow")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(width: 396, height: 400)
                 
                     
-        
+                
+                    
+               
+                switch weatherViewModel.weather?.current.condition.text {
+                    case "sunny":
+                        Image("sunsetclear")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 380)
+                    case "Partly cloudy":
+                        Image("lightwind")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 336)
+                    case "Cloudy":
+                        Image("sunsetclouds")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 400)
+                    case "Light rain":
+                        Image("cold")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 400)
+                    case "Heavy rain":
+                        Image("rain")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 400)
+                    case "Light snow":
+                        Image("snow")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 400)
+                    case "snow":
+                        Image("snow")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 400)
+                        
+                        
+                    default:
+                        Image("sunsetclear")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 396, height: 400)
+                    }
+                
+                    
+                    
+                
+                
                 
                 
                 VStack()
@@ -85,7 +137,7 @@ struct ImageView: View {
                         {
                            
                             Text("\(locationManager.city),\(locationManager.country)")
-                                .font(TypefaceOne.medium.font(size: 18))
+                                .font(Poppins.medium.font(size: 18))
                                 .foregroundColor(.white)
                             
                             
@@ -110,12 +162,12 @@ struct ImageView: View {
                                 
                                 Text(String(format: "%.0f", weather.current.temp_c))
                                     .foregroundColor(.white)
-                                    .font(TypefaceOne.semiBold.font(size: 130))
+                                    .font(Poppins.semiBold.font(size: 130))
                                 
                                 
                                 Text("°")
                                     .foregroundColor(.white)
-                                    .font(TypefaceOne.semiBold.font(size: 60))
+                                    .font(Poppins.semiBold.font(size: 60))
                                     .padding(.bottom,50)
                                 
                                 
@@ -123,7 +175,7 @@ struct ImageView: View {
                             .padding(.leading,40)
                             
                             Text(weather.current.condition.text)
-                                .font(TypefaceOne.semiBold.font(size: 20))
+                                .font(Poppins.semiBold.font(size: 20))
                                 .foregroundColor(.white)
                             
                             
@@ -131,29 +183,40 @@ struct ImageView: View {
                     }
                     .padding(.top,30)
                     
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            weatherViewModel.current(city: locationManager.city) {
-                                print("2")
-                            }
-                        }
-                    }
                     
                     
                     Text(currentFormattedDate())
-                           .font(TypefaceOne.medium.font(size: 20))
+                           .font(Poppins.medium.font(size: 20))
                            .foregroundColor(.white)
                            .padding(.top,50)
                            
                     
                 }
                 
+               
                 
-             
+                
+               
                 
                 
                 
             }
+            .onReceive(locationManager.locationPermissionDidChange) { isPermissionGranted in
+                if isPermissionGranted {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        weatherViewModel.current(city: locationManager.city) {
+                            print("Data fetched")
+                        }
+                    }
+                }
+            }
+            
+                
+               
+                
+            
+            
+            
             
             
             
